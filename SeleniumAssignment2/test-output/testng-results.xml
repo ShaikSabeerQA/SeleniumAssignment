@@ -2,20 +2,20 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-04-19T00:15:16 IST" name="Default suite" finished-at="2026-04-19T00:15:36 IST" duration-ms="19486">
+  <suite started-at="2026-04-19T00:40:14 IST" name="Default suite" finished-at="2026-04-19T00:40:35 IST" duration-ms="20795">
     <groups>
     </groups>
-    <test started-at="2026-04-19T00:15:16 IST" name="Default test" finished-at="2026-04-19T00:15:36 IST" duration-ms="19486">
+    <test started-at="2026-04-19T00:40:14 IST" name="Default test" finished-at="2026-04-19T00:40:35 IST" duration-ms="20795">
       <class name="tests.Assignment3Test">
-        <test-method is-config="true" signature="init()[pri:0, instance:tests.Assignment3Test@33d512c1]" started-at="2026-04-19T00:15:16 IST" name="init" finished-at="2026-04-19T00:15:34 IST" duration-ms="18244" status="PASS">
+        <test-method is-config="true" signature="init()[pri:0, instance:tests.Assignment3Test@7c7a06ec]" started-at="2026-04-19T00:40:14 IST" name="init" finished-at="2026-04-19T00:40:34 IST" duration-ms="19500" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- init -->
-        <test-method signature="findMaxPriceCompany()[pri:0, instance:tests.Assignment3Test@33d512c1]" started-at="2026-04-19T00:15:34 IST" name="findMaxPriceCompany" finished-at="2026-04-19T00:15:35 IST" duration-ms="931" status="PASS">
+        <test-method signature="findMaxPriceCompany()[pri:0, instance:tests.Assignment3Test@7c7a06ec]" started-at="2026-04-19T00:40:34 IST" name="findMaxPriceCompany" finished-at="2026-04-19T00:40:35 IST" duration-ms="988" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- findMaxPriceCompany -->
-        <test-method is-config="true" signature="close()[pri:0, instance:tests.Assignment3Test@33d512c1]" started-at="2026-04-19T00:15:35 IST" name="close" finished-at="2026-04-19T00:15:36 IST" duration-ms="255" status="PASS">
+        <test-method is-config="true" signature="close()[pri:0, instance:tests.Assignment3Test@7c7a06ec]" started-at="2026-04-19T00:40:35 IST" name="close" finished-at="2026-04-19T00:40:35 IST" duration-ms="257" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- close -->

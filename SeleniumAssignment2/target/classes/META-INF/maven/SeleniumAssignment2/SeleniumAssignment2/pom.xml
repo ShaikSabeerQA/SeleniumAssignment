@@ -1,6 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -8,11 +8,13 @@
     <artifactId>SeleniumAssignment2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <!-- KEEP YOUR EXISTING STRUCTURE -->
     <build>
+        <!-- Your custom structure -->
         <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>src</testSourceDirectory>
 
         <plugins>
+
             <!-- Java Compiler -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -22,12 +24,17 @@
                 </configuration>
             </plugin>
 
-            <!-- IMPORTANT: TestNG Runner -->
+            <!-- TestNG Runner -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <configuration>
+                    <!-- This avoids failure if test not found -->
+                    <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
+                </configuration>
             </plugin>
+
         </plugins>
     </build>
 
@@ -47,7 +54,7 @@
             <version>4.40.0</version>
         </dependency>
 
-        <!-- 🔥 FIX: TestNG should be COMPILE scope -->
+        <!-- 🔥 Important: TestNG should be compile scope -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
