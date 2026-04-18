@@ -1,0 +1,100 @@
+package tests;
+
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+import Base.BaseTest;
+import pages.AlertsPage;
+import utils.WaitUtil;
+import utils.ScreenshotUtil;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+
+public class Assignment2Test extends BaseTest {
+
+    AlertsPage alerts;
+    WaitUtil wait;
+
+    @BeforeMethod
+    public void init() {
+        setup();
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+
+        alerts = new AlertsPage(driver);
+        wait = new WaitUtil(driver);
+    }
+
+    @Test
+    public void verifyAllAlerts() {
+
+        // ================= JS ALERT =================
+        alerts.clickJsAlert();
+
+        Alert alert1 = alerts.switchToAlert();
+
+        // Validate alert text
+        Assert.assertEquals(alert1.getText(),
+                "I am a JS Alert",
+                "JS Alert text mismatch");
+
+        alert1.accept();
+
+        // Validate result
+        wait.waitForElementVisible(By.id("result"));
+        Assert.assertEquals(alerts.getResultText(),
+                "You successfully clicked an alert");
+
+
+        // ================= JS CONFIRM (OK) =================
+        alerts.clickJsConfirm();
+
+        Alert alert2 = alerts.switchToAlert();
+
+        Assert.assertEquals(alert2.getText(),
+                "I am a JS Confirm");
+
+        alert2.accept();
+
+        Assert.assertEquals(alerts.getResultText(),
+                "You clicked: Ok");
+
+
+        // ================= JS CONFIRM (CANCEL) =================
+        alerts.clickJsConfirm();
+
+        Alert alert3 = alerts.switchToAlert();
+
+        alert3.dismiss();
+
+        Assert.assertEquals(alerts.getResultText(),
+                "You clicked: Cancel");
+
+
+        // ================= JS PROMPT =================
+        alerts.clickJsPrompt();
+
+        Alert alert4 = alerts.switchToAlert();
+
+        // Validate alert text
+        Assert.assertEquals(alert4.getText(),
+                "I am a JS prompt");
+
+        // Send input
+        alert4.sendKeys("selenium");
+
+        alert4.accept();
+
+        Assert.assertEquals(alerts.getResultText(),
+                "You entered: selenium");
+
+
+        // Screenshot (MANDATORY)
+        ScreenshotUtil.capture(driver, "Assignment2_Alerts");
+    }
+
+    @AfterMethod
+    public void close() {
+        tearDown();
+    }
+}

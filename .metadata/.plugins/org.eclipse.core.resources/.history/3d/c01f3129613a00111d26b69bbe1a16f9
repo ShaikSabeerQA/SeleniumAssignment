@@ -1,0 +1,72 @@
+package tests;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import Base.BaseTest;
+import pages.KSRTCLoginPage;
+import utils.ConfigReader;
+import utils.ExcelUtil;
+import utils.ScreenshotUtil;
+
+public class Assignment4Test extends BaseTest {
+
+    KSRTCLoginPage page;
+
+    @BeforeMethod
+    public void init() {
+        setup();
+
+        // URL from config
+        driver.get(ConfigReader.get("url"));
+
+        page = new KSRTCLoginPage(driver);
+    }
+
+    @DataProvider(name = "data")
+    public Object[][] getData() {
+        return ExcelUtil.getData();
+    }
+
+    @Test(dataProvider = "data")
+    public void verifyKSRTCFlow(String user, String pass, String email) {
+
+        //  Step 1: Verify phone number
+        Assert.assertTrue(page.isPhoneDisplayed(),
+                "Phone number not displayed");
+
+        // Step 2: Click Sign In
+        page.clickSignIn();
+
+        // Step 3: Validate URL
+        Assert.assertTrue(driver.getCurrentUrl().contains("login"),
+                "Login page not opened");
+
+        //  Step 4: Enter credentials
+        page.login(user, pass);
+
+        // ✅ Step 5: Validate login error
+        Assert.assertTrue(page.getLoginError().contains("Login incorrect"),
+                "Login error not displayed");
+
+        //  Step 6: Forgot Password
+        page.clickForgotPassword();
+
+        page.submitEmail(email);
+
+        //  Step 7: Validate forgot password error
+        Assert.assertTrue(page.getForgotError().contains("Login Name not found"),
+                "Forgot password error not displayed");
+
+        //  Screenshot
+        ScreenshotUtil.capture(driver, "Assignment4_Final");
+    }
+
+    @AfterMethod
+    public void close() {
+        tearDown();
+    }
+}

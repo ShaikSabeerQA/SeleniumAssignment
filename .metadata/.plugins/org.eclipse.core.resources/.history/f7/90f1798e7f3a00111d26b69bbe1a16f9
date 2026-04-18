@@ -1,0 +1,129 @@
+package pages;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import utils.WaitUtil;
+
+public class KSRTCLoginPage {
+
+    WebDriver driver;
+    WaitUtil waitUtil;
+
+    public KSRTCLoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        waitUtil = new WaitUtil(driver);
+        
+    }
+
+    @FindBy(xpath = "//div[@class='header-right-item-text'][contains(text(),'Commuter')]")
+    WebElement signIn;
+
+    @FindBy(xpath = "//label[text() = 'Email ID']/preceding-sibling::input[@type = \"text\"]")
+    WebElement emailid;
+
+    @FindBy(xpath = "//label[text() = 'Mobile Number']/preceding-sibling::input[@type = \"tel\"]")
+    WebElement phonenum;
+    
+    @FindBy(xpath = "//input[@type = 'password']")
+    WebElement password;
+
+    
+  //div[text() = 'AGREE']
+    @FindBy(xpath = "//div[contains(@class , 'checkbox')]")
+    WebElement termsAgree;
+  
+    @FindBy(xpath = "//div[@class = \"btn payee\"]")
+    WebElement loginBtn;
+
+    @FindBy(xpath = "//button[@id = 'okayButton']")
+    WebElement okButton;
+    @FindBy(xpath = "//div[contains(text(),'Please enter valid login details !')]")
+    WebElement loginError;
+
+    @FindBy(xpath = "//div[text() = 'Forgot Password?']")
+    WebElement forgotPwd;
+
+    @FindBy(id = "email")
+    WebElement email;
+
+//    @FindBy(xpath = "//button[text()='Submit']")
+//    WebElement submitBtn;
+
+    @FindBy(xpath = "//div[contains(text(),'The provided mobile number')]")
+    WebElement forgotError;
+
+    // ✅ Phone number validation
+    @FindBy(xpath = "//*[contains(text(),'080-26252625')]")
+    WebElement phoneNumber;
+
+    // Actions
+    public boolean isPhoneDisplayed() {
+        return phoneNumber.isDisplayed();
+    }
+
+    public void clickSignIn() {
+    	waitUtil.clickWithWait(signIn);
+        signIn.click();
+        
+        
+    }
+    public void handleTermsPopup() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement agreeBtn = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[text()='AGREE']")));
+
+        agreeBtn.click();
+    }
+    
+    public void login(String email, String phonenumber, String pass) {
+
+        emailid.sendKeys(email);
+        phonenum.sendKeys(phonenumber);
+        password.sendKeys(pass);
+
+        // Step 1: First login click
+        loginBtn.click();
+
+        // Step 2: Handle Terms popup
+        handleTermsPopup();
+
+        // Step 3: WAIT until popup disappears
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[text()='AGREE']")));
+           
+        // Step 4: Click login AGAIN (now safe)
+        wait.until(ExpectedConditions.elementToBeClickable(loginBtn)).click();
+    }
+
+    public String getLoginError() {
+        return loginError.getText();
+    }
+
+    public void clickForgotPassword() {
+    	
+    	 waitUtil.clickWithWait(okButton);
+    	 okButton.click();
+    	 waitUtil.clickWithWait(forgotPwd);
+        forgotPwd.click();
+    }
+
+    public void submitEmail(String mail) {
+        email.sendKeys(mail);
+        loginBtn.click();
+    }
+
+    public String getForgotError() {
+        return forgotError.getText();
+    }
+}

@@ -1,0 +1,22 @@
+package utils;
+
+import org.openqa.selenium.*;
+
+import com.google.common.io.Files;
+
+import java.io.File;
+
+
+public class ScreenshotUtil {
+
+    public static void capture(WebDriver driver, String name) {
+        try {
+            TakesScreenshot ts = (TakesScreenshot) driver;
+            File src = ts.getScreenshotAs(OutputType.FILE);
+            File dest = new File("./screenshots/" + name + ".png");
+            Files.copy(src, dest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

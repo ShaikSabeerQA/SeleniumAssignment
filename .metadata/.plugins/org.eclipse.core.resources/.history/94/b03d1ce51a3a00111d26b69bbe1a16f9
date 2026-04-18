@@ -1,0 +1,73 @@
+package tests;
+
+import org.testng.annotations.*;
+import base.BaseTest;
+import pages.WebTablePage;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import utils.ScreenshotUtil;
+
+import java.util.List;
+
+public class Assignment3Test extends BaseTest {
+
+    WebTablePage tablePage;
+
+    @BeforeMethod
+    public void init() {
+        setup();
+        driver.get("http://demo.guru99.com/test/web-table-element.php");
+        tablePage = new WebTablePage(driver);
+    }
+
+    @Test
+    public void findMaxPriceCompany() {
+
+        // Step 1: Rows & Columns
+        int rowCount = tablePage.getRowCount();
+        int colCount = tablePage.getColumnCount();
+
+        System.out.println("Rows: " + rowCount);
+        System.out.println("Columns: " + colCount);
+
+        List<WebElement> rows = tablePage.getRows();
+
+        double maxPrice = 0;
+        String companyName = "";
+
+        // Step 2: Traverse table
+        for (int i = 1; i <= rows.size(); i++) {
+
+            // Company Name
+            String name = driver.findElement(
+                    By.xpath("//table//tbody/tr[" + i + "]/td[1]"))
+                    .getText();
+
+            // Price (remove comma)
+            String priceText = driver.findElement(
+                    By.xpath("//table//tbody/tr[" + i + "]/td[4]"))
+                    .getText().replace(",", "");
+
+            double price = Double.parseDouble(priceText);
+
+            // Step 3: Compare
+            if (price > maxPrice) {
+                maxPrice = price;
+                companyName = name;
+            }
+        }
+
+        // Step 4: Print result
+        System.out.println("Max Company: " + companyName);
+        System.out.println("Max Price: " + maxPrice);
+
+        // Screenshot
+        ScreenshotUtil.capture(driver, "Assignment3_Table");
+    }
+
+    @AfterMethod
+    public void close() {
+        tearDown();
+    }
+}

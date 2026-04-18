@@ -1,0 +1,60 @@
+package tests;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+import Base.BaseTest;
+import pages.BlogPage;
+import pages.HomePage;
+import utils.ScreenshotUtil;
+import utils.WaitUtil;
+
+public class Assignment1Test extends BaseTest {
+
+    HomePage home;
+    BlogPage blog;
+    WaitUtil wait;
+
+    @BeforeMethod
+    public void init() {
+        setup();
+        home = new HomePage(driver);
+        blog = new BlogPage(driver);
+        wait = new WaitUtil(driver);
+    }
+
+    @Test
+    public void verifyBlogFunctionality() {
+
+        // Scroll
+        home.scrollToCustomerService();
+
+        // Click Blog
+        home.clickBlog();
+
+        // Validate URL
+        String expectedUrl = "https://demowebshop.tricentis.com/blog";
+        wait.waitForUrl(expectedUrl);
+
+        Assert.assertEquals(blog.getCurrentURL(), expectedUrl,
+                "URL is incorrect");
+
+        // Validate BLOG ARCHIVE
+        wait.waitForElementVisible(
+        		By.xpath("//div[contains(@class,'block-blog-archive')]//div[contains(@class,'title')]//strong"));
+
+        String actualText = blog.getBlogArchiveText();
+
+        Assert.assertEquals(actualText, "BLOG ARCHIVE",
+                "BLOG ARCHIVE text not found");
+
+        // Screenshot
+        ScreenshotUtil.capture(driver, "Assignment2.1");
+    }
+
+    @AfterMethod
+    public void close() {
+        tearDown();
+    }
+}

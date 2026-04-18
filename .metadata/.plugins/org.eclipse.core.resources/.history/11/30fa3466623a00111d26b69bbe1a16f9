@@ -1,0 +1,77 @@
+package pages;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.*;
+
+public class KSRTCLoginPage {
+
+    WebDriver driver;
+
+    public KSRTCLoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(linkText = "Sign In")
+    WebElement signIn;
+
+    @FindBy(id = "userName")
+    WebElement username;
+
+    @FindBy(id = "password")
+    WebElement password;
+
+    @FindBy(xpath = "//button[text()='Login']")
+    WebElement loginBtn;
+
+    @FindBy(xpath = "//div[contains(text(),'Login incorrect')]")
+    WebElement loginError;
+
+    @FindBy(linkText = "Forgot Password?")
+    WebElement forgotPwd;
+
+    @FindBy(id = "email")
+    WebElement email;
+
+    @FindBy(xpath = "//button[text()='Submit']")
+    WebElement submitBtn;
+
+    @FindBy(xpath = "//div[contains(text(),'Login Name not found')]")
+    WebElement forgotError;
+
+    // ✅ Phone number validation
+    @FindBy(xpath = "//*[contains(text(),'080-26252626')]")
+    WebElement phoneNumber;
+
+    // Actions
+    public boolean isPhoneDisplayed() {
+        return phoneNumber.isDisplayed();
+    }
+
+    public void clickSignIn() {
+        signIn.click();
+    }
+
+    public void login(String user, String pass) {
+        username.sendKeys(user);
+        password.sendKeys(pass);
+        loginBtn.click();
+    }
+
+    public String getLoginError() {
+        return loginError.getText();
+    }
+
+    public void clickForgotPassword() {
+        forgotPwd.click();
+    }
+
+    public void submitEmail(String mail) {
+        email.sendKeys(mail);
+        submitBtn.click();
+    }
+
+    public String getForgotError() {
+        return forgotError.getText();
+    }
+}

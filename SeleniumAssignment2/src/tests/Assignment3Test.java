@@ -1,0 +1,84 @@
+package tests;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import Base.BaseTest;
+import pages.WebTablePage;
+import utils.ScreenshotUtil;
+
+public class Assignment3Test extends BaseTest {
+
+    WebTablePage tablePage;
+
+    @BeforeMethod
+    public void init() {
+        setup();
+        driver.get("http://demo.guru99.com/test/web-table-element.php");
+        tablePage = new WebTablePage(driver);
+    }
+
+    @Test
+    public void findMaxPriceCompany() {
+
+        // ✅ Scroll to table (important)
+        tablePage.scrollToTable();
+
+        // Row & Column count
+        int rowCount = tablePage.getRowCount();
+        int colCount = tablePage.getColumnCount();
+
+        System.out.println("Rows: " + rowCount);
+        System.out.println("Columns: " + colCount);
+
+        List<WebElement> rows = tablePage.getRows();
+
+        double maxPrice = 0;
+        String maxCompany = "";
+
+        // Traverse table
+        for (WebElement row : rows) {
+
+            List<WebElement> cols = row.findElements(By.tagName("td"));
+
+            if (cols.size() < 4) continue;
+
+            String company = cols.get(0).getText().trim();
+
+            String priceText = cols.get(3).getText()
+                    .replace(",", "")
+                    .trim();
+
+            if (priceText.isEmpty()) continue;
+
+            double price = Double.parseDouble(priceText);
+
+            if (price > maxPrice) {
+                maxPrice = price;
+                maxCompany = company;
+            }
+        }
+
+        // Output
+        System.out.println("Max Company: " + maxCompany);
+        System.out.println("Max Price: " + maxPrice);
+
+        // Screenshot
+        ScreenshotUtil.capture(driver, "Assignment3_Final");
+
+        // Optional: Scroll back to top
+        ((JavascriptExecutor) driver)
+                .executeScript("window.scrollTo(0,0)");
+    }
+
+    @AfterMethod
+    public void close() {
+        tearDown();
+    }
+}

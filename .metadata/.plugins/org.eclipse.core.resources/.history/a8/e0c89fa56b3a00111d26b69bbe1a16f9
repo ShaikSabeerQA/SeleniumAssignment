@@ -1,0 +1,95 @@
+package pages;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.*;
+
+import utils.WaitUtil;
+
+public class KSRTCLoginPage {
+
+    WebDriver driver;
+    WaitUtil waitUtil;
+
+    public KSRTCLoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        waitUtil = new WaitUtil(driver);
+        
+    }
+
+    @FindBy(xpath = "//div[@class='header-right-item-text'][contains(text(),'Commuter')]")
+    WebElement signIn;
+
+    @FindBy(xpath = "//label[text() = 'Email ID']/preceding-sibling::input[@type = \"text\"]")
+    WebElement emailid;
+
+    @FindBy(xpath = "//label[text() = 'Mobile Number']/preceding-sibling::input[@type = \"tel\"]")
+    WebElement phonenum;
+    
+    @FindBy(xpath = "//input[@type = 'password']")
+    WebElement password;
+
+    
+  //div[text() = 'AGREE']
+    @FindBy(xpath = "//div[text() = 'AGREE']")
+    WebElement termsAgree;
+  
+    @FindBy(xpath = "//div[@class = \"btn payee\"]")
+    WebElement loginBtn;
+
+    @FindBy(xpath = "//div[contains(text(),'Login incorrect')]")
+    WebElement loginError;
+
+    @FindBy(linkText = "Forgot Password?")
+    WebElement forgotPwd;
+
+    @FindBy(id = "email")
+    WebElement email;
+
+    @FindBy(xpath = "//button[text()='Submit']")
+    WebElement submitBtn;
+
+    @FindBy(xpath = "//div[contains(text(),'Login Name not found')]")
+    WebElement forgotError;
+
+    // ✅ Phone number validation
+    @FindBy(xpath = "//*[contains(text(),'080-26252625')]")
+    WebElement phoneNumber;
+
+    // Actions
+    public boolean isPhoneDisplayed() {
+        return phoneNumber.isDisplayed();
+    }
+
+    public void clickSignIn() {
+    	waitUtil.clickWithWait(signIn);
+        signIn.click();
+        
+    }
+    
+    public void login(String email,String phonenumber, String pass) {
+	 emailid.sendKeys(email);
+	 phonenum.sendKeys(phonenumber);
+        password.sendKeys(pass);
+        termsAgree.click();
+        waitUtil.clickWithWait(loginBtn);
+        loginBtn.click();
+    }
+
+    public String getLoginError() {
+        return loginError.getText();
+    }
+
+    public void clickForgotPassword() {
+        forgotPwd.click();
+    }
+
+    public void submitEmail(String mail) {
+        email.sendKeys(mail);
+        submitBtn.click();
+    }
+
+    public String getForgotError() {
+        return forgotError.getText();
+    }
+}
