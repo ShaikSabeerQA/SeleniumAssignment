@@ -6,7 +6,6 @@ INDEX VERSION 1.134+C:\Users\DELL\Desktop\Assignment2\.metadata\.plugins\org.ecl
 2167110170.index
 1610300146.index
 1758660714.index
-4241833178.index
 403783592.index
 1122299544.index
 3256324758.index
